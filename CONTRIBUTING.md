@@ -36,6 +36,35 @@ npm run start-host
 
 This will start the app on the host instead. It will however still run the database inside Docker.
 
+## Troubleshoot
+
+### At setup:
+
+Make sure to have organization permissions, to avoid 403 Forbidden error-message from Github Packages.
+
+.env-file is needed for GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and SLACK_TOKEN to succesfully authenticate at login.
+
+### Mac with M1 or M2-chip:
+
+In the docker-compose-files one might need to specify the target platform for the build output.
+
+Example from docker-compose.dev.yml:
+
+```
+  nodemon:
+    platform: linux/x86_64
+    build:
+      dockerfile: .docker/dockerfiles/nodemon
+      context: ../..
+    container_name: achievements-nodemon
+    user: 1000:1000
+    labels:
+      - 'com.etimo-achievements.monitored'
+    volumes:
+      - ../../packages:/app/packages
+      - ../../scripts:/app/scripts
+```
+
 ### Extensions
 
 If you want to install the recommended VSCode extensions, simply run:
